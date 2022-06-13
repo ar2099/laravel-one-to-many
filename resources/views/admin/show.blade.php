@@ -5,7 +5,7 @@
     
     
     
-    
+    <p>Categoria: {{$post->Category->tema}}</p>
     <p>Autore: {{$post->author}}</p>
     <p>Data: {{$post->data}}</p>
     <p>Titolo: {{$post->title}}</p>

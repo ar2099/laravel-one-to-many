@@ -8,7 +8,7 @@ use App\Models\Post;
 use App\Models\Category;
 use Illuminate\Support\Str;
 
-class PostController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,9 +17,8 @@ class PostController extends Controller
      */
     public function index()
     {
-         $posts = Post::orderBy("updated_at", "DESC")->get();
-        //  $categories = Category::all();
-        return view("admin.index", compact("posts"));
+        $categories = Category::all();
+        return view("admin.category.index", compact("categories"));
     }
 
     /**
@@ -28,10 +27,8 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {   
-         $categories =  Category::all();
-         return view( 'admin.create', compact('categories') );
-         
+    {
+         return view( 'admin.category.create');
     }
 
     /**
@@ -42,13 +39,12 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $dati = $request->all();
+        $dati_category = $request->all();
         
-        $new_post = new Post();
-            $new_post->fill($dati);
-            $new_post->slung = Str::slug($new_post->title, '-');
-            $new_post->save();
-            return redirect()->route("admin.posts.show", $new_post) ;
+        $new_category = new Category();
+            $new_category->fill($dati_category);
+            $new_category->save();
+            return redirect()->route("admin.categories.show", $new_category) ;
     }
 
     /**
@@ -59,8 +55,8 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        $post = Post::findOrFail($id);
-        return view("admin.show", compact("post"));
+        $category = Category::findOrFail($id);
+        return view("admin.category.show", compact("category"));
     }
 
     /**
@@ -69,10 +65,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Post $post)
+    public function edit(Category $category)
     {
-        $categories =  Category::all();
-         return view( 'admin.edit', compact('post', 'categories') );
+         return view( 'admin.category.edit', compact('category') );
     }
 
     /**
@@ -82,14 +77,13 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(Request $request, Category $category)
     {
         $data = $request->all();
-        $post['slung'] = Str::slug( $request->title , '-');
-        $post->update($data);
+        $category->update($data);
 
         
-        return redirect()->route( 'admin.posts.show', $post );
+        return redirect()->route( 'admin.categories.show', $category );
     }
 
     /**
@@ -98,9 +92,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Post $post)
+    public function destroy(Category $category)
     {
-         $post->delete();
-        return redirect()->route( 'admin.posts.index' );
+        $category->delete();
+        return redirect()->route( 'admin.categories.index' );
     }
 }

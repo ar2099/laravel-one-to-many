@@ -6,6 +6,7 @@
   <thead>
     <tr>
         <th scope="col">Autore</th>
+        <th scope="col">Categoria</th>
         <th scope="col">Data</th>
         <th scope="col">Titolo</th>
          <th scope="col">Slung</th>
@@ -22,6 +23,15 @@
     <tr>
     
     <td>{{$post->author}}</td>
+    <td>
+    @if ($post->Category)
+        <span>{{$post->Category->tema}}</span>
+        
+            
+        @else
+          <span>-</span>  
+       
+    @endif</td>
     <td>{{$post->data}}</td>
     <td>{{$post->title}}</td>
     <td>{{$post->slung}}</td>
